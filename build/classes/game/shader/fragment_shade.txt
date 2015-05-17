@@ -1,0 +1,21 @@
+#version 440 core
+
+in vec4 colorr;
+in vec2 texcoords;
+out vec4 color;
+
+uniform sampler2D tex;
+
+float x = gl_FragCoord.x / 1028;
+float y = gl_FragCoord.y / 768;
+float z = gl_FragCoord.z;
+
+void main(void){
+
+        if(colorr.z == 0.0){
+	color = texture(tex,texcoords)* vec4(1.0,1.0,1.0,1.0);
+        }else{
+        color = texture(tex,texcoords)* colorr;
+        //color = texture(tex,texcoords)* vec4(1.0,1.0,1.0,1.0);
+        }
+}       

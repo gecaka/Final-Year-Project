@@ -1,0 +1,24 @@
+#version 440 core
+
+in vec2 position;
+in vec4 desColor;
+in vec2 texCoords;
+uniform vec2 translate;
+mat4 trans;
+
+out vec4 colorr;
+out vec2 texcoords;
+
+void main(void){
+        
+        trans[0] = vec4(1,0,0,translate.x);
+        trans[1] = vec4(0,1,0,translate.y);
+        trans[2] = vec4(0,0,1,0);
+        trans[3] = vec4(0,0,0,1);
+        
+        float scale = 3;
+
+        colorr = desColor;
+        texcoords = texCoords;
+	gl_Position = vec4(position,1.0,1.0)*trans;
+}
