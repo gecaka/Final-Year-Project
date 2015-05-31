@@ -7,6 +7,7 @@ package game.TileMap;
 
 import Engine.Program;
 import static Utils.Helper.*;
+import game.Entity.Player;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
@@ -96,7 +97,7 @@ public class TileMap {
     public void constructMap(String map_file_in){
         map_path = map_file_in;
         
-        File map_file = new File("res/map.txt");
+        File map_file = new File(map_path);
         
         try {
            
@@ -108,14 +109,14 @@ public class TileMap {
             width = numOfColums*tileSize;
             height = numOfRows*tileSize; 
                   
-            map = new int[numOfColums][numOfRows];
-            map_tiles = new Tile[numOfColums][numOfRows];
+            map = new int[numOfRows][numOfColums];
+            map_tiles = new Tile[numOfRows][numOfColums];
             
             while(scanner.hasNext()){
             
                 
-                for(int x = 0;x<numOfRows;x++){
-                    for(int y = 0;y<numOfColums;y++){
+                for(int x = 0;x<map.length;x++){
+                    for(int y = 0;y<map[x].length;y++){
                         int nextBlockIndex = scanner.nextInt();
                         map[x][y] = nextBlockIndex;
                         map_tiles[x][y] = new Tile(y,x,nextBlockIndex-1);
@@ -144,22 +145,25 @@ public class TileMap {
       
       float[] total_vertex = new float[0];
       
-      for(int y = 0;y < numOfColums;y++){
-          for(int x = 0;x < numOfRows;x++){
+      for(int x = 0;x < map.length;x++){
+         for(int y = 0;y < map[x].length;y++){   
                  
-                 if( y < numOfColums && x < numOfRows){
+                 if( y < map[x].length && x < map.length){
+                     
+                     if( ( x*tileSize < Player.refY + (Display.getHeight() /1.9f) && x*tileSize > Player.refY - (Display.getHeight()) /1.9f) && 
+                         ( y*tileSize < Player.refX + (Display.getWidth() /1.9f) && y*tileSize > Player.refX - (Display.getWidth()) /1.9f) ){
                      
                     float[] temp_pos =
                             
-           {cX(x*tileSize), cY(y*tileSize), //1 vertex position
+           {cX(y*tileSize), cY(x*tileSize), //1 vertex position
             
-            cX(x*tileSize), cY((y*tileSize)+ tileSize),
+            cX(y*tileSize), cY((x*tileSize)+ tileSize),
             
-            cX((x*tileSize )+ tileSize), cY((y*tileSize) + tileSize),
+            cX((y*tileSize )+ tileSize), cY((x*tileSize) + tileSize),
             
-            cX((x*tileSize)+ tileSize), cY(y*tileSize)};
+            cX((y*tileSize)+ tileSize), cY(x*tileSize)};
                      
-                    float[] temp_tex = TileSet.getTextureCoords(map_tiles[y][x].getTileIndex());
+                    float[] temp_tex = TileSet.getTextureCoords(map_tiles[x][y].getTileIndex());
                     
             float[] combined_attribs ={
                 temp_pos[0],temp_pos[1],
@@ -173,11 +177,14 @@ public class TileMap {
             };        
                     
                 total_vertex = concatf(total_vertex,combined_attribs);
+                
                  }
-                 
+                     
+               }
           }
               }
       
+      if(total_vertex.length > 0){
         /* byte[] indecies = {
         
         0,1,2, //bottom triangle
@@ -215,11 +222,11 @@ public class TileMap {
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
       
-      glDrawArrays(GL_QUADS,0,(numColumnsToDraw*numRowsToDraw)*4); // the times 4 is the number of vertices involved in the production of a quad
-      //glDrawElements(GL_TRIANGLES,index_buffer);
+      glDrawArrays(GL_QUADS,0,(numOfColums*numOfRows)*4); // the times 4 is the number of vertices involved in the production of a quad
+      //glDrawElements(GL_TRIANGLES,index_buffer); // Can ADD NUMBER OF ROWS TO DRAW AND NUMBER OF COLUMNS TO DRAW to reduce lag
 
        //System.out.println("X: " +offset[0] +"  Y: "+offset[1] );
-        
+      }
       } 
     
     

@@ -10,6 +10,7 @@ import Utils.Helper;
 import static Utils.Helper.cX;
 import static Utils.Helper.cY;
 import static Utils.Helper.makeFloatBuffer;
+import game.Menu;
 import game.TileMap.TileMap;
 import java.nio.FloatBuffer;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
@@ -28,6 +29,7 @@ import static org.lwjgl.opengl.GL20.glGetAttribLocation;
 import static org.lwjgl.opengl.GL20.glGetUniformLocation;
 import static org.lwjgl.opengl.GL20.glUniform2;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import org.newdawn.slick.Color;
 
 /**
  *
@@ -100,10 +102,24 @@ public abstract class InteractiveNPC extends GameObject implements Interactive {
         
         glDrawElements(GL_TRIANGLES,index_buffer);
         
-        //("Wazaaap bro");
+        say("Wazaaap bro");
     }
     
     public abstract void moveCharacter(float delta);
+    
+    @Override
+    public void say(String msg){
+        
+     Menu.getCurrentProgram().releaseProgram();
+       
+       float displayX = x + Helper.convertToScreenCoordsX(TileMap.getOffsetX()); 
+       float displayY = y - Helper.convertToScreenCoordsY(TileMap.getOffsetY());
+       
+        font1.drawString(displayX-(font1.getWidth(msg)/2f), displayY-ts, "", Color.white);
+        font2.drawString(displayX, displayY+ts, String.valueOf(health), Color.yellow);
+        
+      Menu.getCurrentProgram().useProgram();
+    }
     
     public void checkDirection(){
         if(move_left){

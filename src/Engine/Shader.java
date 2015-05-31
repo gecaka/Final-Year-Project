@@ -9,7 +9,6 @@ import static org.lwjgl.opengl.GL20.*;
 public class Shader {
     
     private int shader_id = 0;
-    private String filename;
     private int shader_status;
     
     private String source = "";
@@ -57,7 +56,6 @@ public class Shader {
         try{
             
             File shader_file = new File(var_filename);
-            filename = shader_file.getName();
             
             BufferedReader reader = new BufferedReader(new FileReader(shader_file));
 		    

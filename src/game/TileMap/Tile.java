@@ -36,11 +36,6 @@ public class Tile {
         tile_texture_index = texture_indexIn;
         tile_type = TileSet.getTileType(texture_indexIn);
         block_name = "B" + pos_x + "/" + pos_y + "  ||  " + pos_x*32 + "/" + pos_y*32 ;
-        /*System.out.println("X: " + x + " Y: " + y);
-        System.out.println("Top Bounds: " + getTopBounds());
-        System.out.println("Bottom Bounds: " + getBottomBounds());
-        System.out.println("Left Bounds: " + getLeftBounds());
-        System.out.println("Right Bounds: " + getRightBounds());*/
         
     }
     
@@ -69,9 +64,7 @@ public class Tile {
     }
     
     public float getTopBounds(){
-        
-        return getY() - (Level.getTileSize()/2f);
-        
+        return getY() - (Level.getTileSize()/2f);   
     }
     
     public float getBottomBounds(){

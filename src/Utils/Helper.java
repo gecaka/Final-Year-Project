@@ -110,6 +110,15 @@ public class Helper {
      }
  }
  
+ // Convert (OpenGL) map coordinates to screen coordinates
+ public static float convertToScreenCoordsX(float openglXCoord){
+     return (openglXCoord*Display.getWidth())/2f;
+ }
+ 
+ public static float convertToScreenCoordsY(float openglYCoord){
+     return (openglYCoord*Display.getHeight())/2f;
+ }
+ 
  //convert x pixels to u coordinate (uv system) (bottom left origin -> top left)
  public static float convtexX(int x, int image_width) { 
     

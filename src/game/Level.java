@@ -85,11 +85,29 @@ public class Level {
         map.constructMap("res/map.txt");
         background = new Background();
         
-        objects.add(pl1 = new Player((Display.getWidth()/2)-(tileSize/2),(Display.getHeight()/2)-(tileSize/2)));
-        
         objects.add(new Walker(100,100));
         objects.add(new Walker(200,300));
-        objects.add(new FlameO(400,300));        
+        objects.add(new Walker(75,575));
+        objects.add(new Walker(1185,575));
+        objects.add(new Walker(1585,575));
+        objects.add(new Walker(1100,272));
+        objects.add(new Walker(1122,61));
+        objects.add(new Walker(1885,575));
+        objects.add(new Walker(2500,575));
+        objects.add(new Walker(2075,575));
+        objects.add(new Walker(2360,434));
+        objects.add(new Walker(2485,306));
+        objects.add(new Walker(2360,170));
+        objects.add(new FlameO(400,300));
+        objects.add(new FlameO(830,525));
+        objects.add(new FlameO(1635,400));
+        objects.add(new FlameO(1315,258));
+        objects.add(new FlameO(1550,70));
+        objects.add(new FlameO(1952,290));
+        objects.add(new FlameO(2013,530));
+        
+        objects.add(pl1 = new Player((Display.getWidth()/2)-(tileSize/2),(Display.getHeight()/2)-(tileSize/2)));
+        
     }
    
     
@@ -126,9 +144,6 @@ public class Level {
                     if(tile[i].getRightBounds() > (obj.getLeftBounds())+Dx && tile[i].getLeftBounds() < (obj.getRightBounds())+Dx ){
                         
                         if(tile[i].getTileType() == TileSetTile.BLOCKED){
-                                if(obj instanceof Walker){
-                                    System.out.println("Walker hit tile: X: "+tile[i].getIndexPosX()+"  Y: "+tile[i].getIndexPosY());
-                                }
                                
                                adjustToEnd(Dx,Dy,obj,tile[i]);
                             return true;
@@ -170,8 +185,12 @@ public class Level {
         
         else if (Dy != 0){
             if(Dy > 0 && bottom != 0){ //dx down
+                
+                if(obj.isOnFloor && bottom > 2.5f){
                 obj.dY(bottom);
-                map.moveDown(bottom);
+                map.moveDown(bottom);  
+                }
+
             }else if(Dy < 0 && top != 0){ // dy UP
                 
                 obj.dY(top);

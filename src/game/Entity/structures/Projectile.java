@@ -4,11 +4,16 @@
  * and open the template in the editor.
  */
 package game.Entity.structures;
+import Utils.Helper;
 import game.Entity.Player;
+import static game.Entity.structures.GameObject.font1;
 import game.Level;
+import game.Menu;
+import game.TileMap.TileMap;
 import java.util.Random;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.Color;
 /**
  *
  * @author Anonymous
@@ -128,6 +133,11 @@ public class Projectile extends AirNPC {
         if(temp != null){
             interact(temp);
         }
+    }
+    
+    @Override
+     public void say(String msg){
+        
     }
     
 }

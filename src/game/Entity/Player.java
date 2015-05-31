@@ -27,10 +27,16 @@ public class Player extends LandNPC{
     private Audio normal_attack_effect;
     private Audio fire_attack_effect;
     private Audio ice_attack_effect;
+    public static float refX = 0;
+    public static float refY = 0;
     
     public Player(int xIn, int yIn){
-        
+
         super(xIn,yIn);
+        
+        refX = xIn;
+        refY = yIn;
+        
         try {
             normal_attack_effect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/normal_shoot.wav"));
             fire_attack_effect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("res/fire_shoot.wav"));
@@ -81,7 +87,8 @@ public class Player extends LandNPC{
     
     @Override
     public void update(float delta){
-        
+        refX = x;
+        refY = y;
         inputPool();
         moveCharacter(delta);
         checkCharacterGravity(delta);
@@ -273,7 +280,7 @@ public class Player extends LandNPC{
         if(weapon == 1){
             
             normal_attack_effect.playAsSoundEffect(1f, 1f, false);
-            usedProj = new Projectile(x,y-10,name);
+            usedProj = new Projectile(x,y-6,name);
             Level.createObject(usedProj);
             usedProj.setSpread(10);
             usedProj.move(mouseX, mouseY);
@@ -281,7 +288,7 @@ public class Player extends LandNPC{
         }else if(weapon == 2){
             
             ice_attack_effect.playAsSoundEffect(1f, 1f, false);
-            usedProj = new Projectile(x,y,name);
+            usedProj = new Projectile(x,y-6,name);
             usedProj.setSpeed(9);
             usedProj.setTexture("PNG", "res/projectile_ice.png");
             usedProj.setSpread(20);
@@ -291,7 +298,7 @@ public class Player extends LandNPC{
         }else if(weapon == 3){
             
             fire_attack_effect.playAsSoundEffect(1f, 1f, false);
-            usedProj = new Projectile(x,y,name);
+            usedProj = new Projectile(x,y-6,name);
             usedProj.setSpeed(9);
             usedProj.setTexture("PNG", "res/projectile_fire.png");
             usedProj.setSpread(40);

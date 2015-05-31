@@ -483,7 +483,7 @@ public class Menu {
     }
     
     //Destroys screen and context
-        private void cleanUp(){
+    private void cleanUp(){
      
         Display.destroy();
     }

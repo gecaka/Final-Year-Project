@@ -52,7 +52,6 @@ public class GameObject implements Intelligent{
     protected FloatBuffer attrib_buffer;
     protected ByteBuffer index_buffer; 
     
-    public int player_vao;
     public int attrib_bufferID;
     public int index_bufferID;
     
@@ -62,8 +61,8 @@ public class GameObject implements Intelligent{
     private static int counter = 0;
     private boolean isFliped;
     
-    private static TrueTypeFont font1;
-    private static TrueTypeFont font2;
+    protected static TrueTypeFont font1;
+    protected static TrueTypeFont font2;
     
     private static boolean isFontLoaded = false;
     
@@ -105,10 +104,10 @@ public class GameObject implements Intelligent{
     private static void loadFont(){
         
         if(!isFontLoaded){
-        java.awt.Font awtFont = new java.awt.Font("Lucida Console", java.awt.Font.BOLD, 24);
+        java.awt.Font awtFont = new java.awt.Font("Lucida Console", java.awt.Font.BOLD, 14);
         font1 = new TrueTypeFont(awtFont, antiAlias);
          
-        java.awt.Font awtFont1 = new java.awt.Font("Arial", java.awt.Font.BOLD, 24);
+        java.awt.Font awtFont1 = new java.awt.Font("Arial", java.awt.Font.BOLD, 14);
         font2 = new TrueTypeFont(awtFont1, antiAlias);
         
         isFontLoaded = true;
@@ -181,8 +180,6 @@ public class GameObject implements Intelligent{
         
         glDrawElements(GL_TRIANGLES,index_buffer);
         
-        //say("Wudup");
-        
     }
     
     public float getX(){
@@ -227,19 +224,14 @@ public class GameObject implements Intelligent{
     }
     
     public void say(String msg){
-       Menu.getCurrentProgram().releaseProgram();
-       
-       float displayX = x - TileMap.getOffsetX(); 
-       float displayY = y - TileMap.getOffsetY();
-       
-       System.out.println("DisplayX: "+displayX+" DisplayY: "+displayY);
-       System.out.println("X: " + x + " Xoffset: " + TileMap.getOffsetX());
-       System.out.println("Y: " + x + " Yoffset: " + TileMap.getOffsetY());
-       
-        font1.drawString(displayX, displayY-ts, msg, Color.white);
-        font2.drawString(displayX, displayY+ts, name, Color.yellow);
         
-        System.out.println(msg);
+     Menu.getCurrentProgram().releaseProgram();
+       
+       float displayX = x + Helper.convertToScreenCoordsX(TileMap.getOffsetX()); 
+       float displayY = y - Helper.convertToScreenCoordsY(TileMap.getOffsetY());
+       
+        font1.drawString(displayX-ts, displayY-ts, msg, Color.white);
+        font2.drawString(displayX-ts, displayY+ts, "", Color.yellow);
         
       Menu.getCurrentProgram().useProgram();
     }
